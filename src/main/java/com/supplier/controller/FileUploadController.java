@@ -4,17 +4,22 @@ import com.jfinal.core.Controller;
 import com.jfinal.kit.HttpKit;
 import com.jfinal.kit.PropKit;
 import com.jfinal.upload.UploadFile;
+import com.supplier.Msg;
 import com.supplier.common.model.OrderBill;
 import com.supplier.common.model.OrderBillProcedures;
 import com.supplier.common.model.User;
 import com.supplier.service.OrderBillProceduresService;
 import com.supplier.service.OrderBillService;
 import com.supplier.tools.CacheTools;
+import com.supplier.tools.FileTools;
 import com.supplier.tools.OrderProcedureEnum;
 import org.apache.commons.lang3.EnumUtils;
+import sun.misc.BASE64Decoder;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
@@ -55,7 +60,7 @@ public class FileUploadController extends Controller {
     }
 
 
-    public void uploadImgForOrderProcedure(){
+    public void uploadImgForOrderProcedure1(){
         UploadFile picFile=getFile("procedureImg");//得到 文件对象
         String fileName=picFile.getFileName();
         String mimeType=picFile.getContentType();//得到 上传文件的MIME类型:audio/mpeg
@@ -119,12 +124,49 @@ public class FileUploadController extends Controller {
         return;
     }
 
+    public void uploadImgForOrderProcedure(){
+        String sid = getSession().getId();
+        User user = CacheTools.getLoginUser(sid);
+        String callback=getRequest().getParameter("callback");
+        Integer billId = getParaToInt("billId");
+        String status = getPara("status");
+        String img = getPara("procedureImg");
+        OrderBill ob = obService.getById(billId);
+        if(ob==null){
+            renderJson(callback+"("+ Msg.ERROR_300("订单不存在")+")");
+            return;
+        }
+        String path=("upload/").trim();
+        if(! EnumUtils.isValidEnum(OrderProcedureEnum.class,status)){
+            renderJson(callback+"("+ Msg.ERROR_300("参数错误")+")");
+            return;
+        }
+        OrderBillProcedures obp = obpService.getByFidAndStatus(billId,status);
+        if(obp==null){
+            renderJson(callback+"("+ Msg.ERROR_300("参数错误")+")");
+            return;
+        }
+        String realpath = getSession().getServletContext().getRealPath(path);
+        String fileName = ob.getBillNo()+status;
+        String type = "";
+        try {
+            type=FileTools.base64ToImg(img,realpath+"/"+fileName);
+        } catch (Exception e) {
+            renderJson(callback+"("+ Msg.ERROR_300(e.getMessage())+")");
+            return;
+        }
 
-
-
-
-
-
+        obp.setUploadTime(new Date());
+        obp.setImgPath(fileName+type);
+        obp.update();
+        ob.setLastModified(new Date());
+        ob.setStatus(status);
+        ob.update();
+       // setAttr("path",newName);
+        renderJson(callback+"("+ Msg.SUCCESS_TXT(fileName)+")");
+       // redirect(PropKit.get("webUrl")+"/zzpage.html?orderid="+billId+"&billno="+ob.getBillNo());
+        return;
+    }
 
 
 }
