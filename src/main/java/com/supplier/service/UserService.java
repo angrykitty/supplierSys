@@ -1,5 +1,6 @@
 package com.supplier.service;
 
+import com.alibaba.druid.util.StringUtils;
 import com.supplier.common.model.User;
 
 public class UserService {
@@ -14,8 +15,35 @@ public class UserService {
 
         return user;
     }
+    public User createSupplier(User user)throws Exception{
+        if (user ==null){
+            throw new Exception("user is required");
+        }
+        if(StringUtils.isEmpty(user.getName())){
+            throw new Exception("user.name is required");
+        }
+        if(StringUtils.isEmpty(user.getPwd())){
+            throw new Exception("user.pwd is required");
+        }
+        if(StringUtils.isEmpty(user.getUserName())){
+            throw new Exception("user.userName is required");
+        }
+        if(StringUtils.isEmpty(user.getSupplierId())){
+            throw new Exception("user.supplierId is required");
+        }
+        if(StringUtils.isEmpty(user.getName())){
+            throw new Exception("user is required");
+        }
+        if(StringUtils.isEmpty(user.getName())){
+            throw new Exception("user is required");
+        }
 
 
+
+
+
+        return null;
+    }
 
 
 

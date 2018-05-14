@@ -1,6 +1,7 @@
 package com.supplier;
 
 import com.jfinal.json.Json;
+import com.jfinal.kit.JsonKit;
 
 public class Msg {
     private Integer code;
@@ -19,7 +20,7 @@ public class Msg {
     }
 
     public final static String  SUCCESS_OBJ(Object obj){
-        return Json.getJson().toJson(new Msg(200,obj==null?"":Json.getJson().toJson(obj)));
+        return "{\"code\":200,\"msg\":"+JsonKit.toJson(obj)+"}";
     }
 
 

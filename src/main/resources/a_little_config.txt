@@ -2,3 +2,12 @@ jdbcUrl = jdbc:mysql://localhost/supplierSys?characterEncoding=utf8&zeroDateTime
 user = root
 password = jhc141991
 devMode = true
+kdUrl = jdbc:sqlserver://192.168.1.254:1433;DatabaseName=AIS20171120090549
+kdUser = sa
+kdPwd = KLxs8888
+kdDriver =com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+
+
+#前端页面地址
+webUrl = http://angrykitty.eicp.net:42131/xietong

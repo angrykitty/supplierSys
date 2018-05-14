@@ -12,5 +12,5 @@
            overflowToDisk="false"
            eternal="false"
            timeToLiveSeconds="6000"
-           timeToIdleSeconds="60"/>       //空闲保留时长（60s即为登录空闲超时时长）
+           timeToIdleSeconds="300"/>       //空闲保留时长（60s即为登录空闲超时时长）
 </ehcache>

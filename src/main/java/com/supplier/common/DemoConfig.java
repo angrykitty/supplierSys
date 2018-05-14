@@ -1,5 +1,6 @@
 package com.supplier.common;
 
+import cn.dreampie.quartz.QuartzPlugin;
 import com.jfinal.plugin.activerecord.CaseInsensitiveContainerFactory;
 import com.jfinal.plugin.activerecord.dialect.AnsiSqlDialect;
 import com.jfinal.plugin.activerecord.dialect.SqlServerDialect;
@@ -9,6 +10,7 @@ import com.supplier.blog.BlogController;
 import com.supplier.common.model._MappingKit;
 import com.supplier.controller.FileUploadController;
 import com.supplier.controller.LoginController;
+import com.supplier.controller.OrderBillController;
 import com.supplier.index.IndexController;
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
@@ -65,6 +67,7 @@ public class DemoConfig extends JFinalConfig {
 		me.add("/blog", BlogController.class);			// 第三个参数省略时默认与第一个参数值相同，在此即为 "/blog"
 		me.add("/login", LoginController.class);
 		me.add("/upload", FileUploadController.class);
+		me.add("/orderBill", OrderBillController.class);
 	}
 	
 	public void configEngine(Engine me) {
@@ -86,14 +89,17 @@ public class DemoConfig extends JFinalConfig {
 		me.add(arp);
 		me.add(new EhCachePlugin());
 
-		DruidPlugin druidPlugin2 = new DruidPlugin("jdbc:sqlserver://192.168.1.254:1433;DatabaseName=double11","sa","KLxs8888","com.microsoft.sqlserver.jdbc.SQLServerDriver");
-		me.add(druidPlugin2);
+		DruidPlugin kd = new DruidPlugin(PropKit.get("kdUrl").trim(),PropKit.get("kdUser").trim(),PropKit.get("kdPwd").trim(),PropKit.get("kdDriver").trim());
+		me.add(kd);
 		// 配置ActiveRecord插件
-		ActiveRecordPlugin arp2 = new ActiveRecordPlugin("db2",druidPlugin2);
-		arp2.setDialect(new SqlServerDialect());
-		me.add(arp2);
+		ActiveRecordPlugin kdArp = new ActiveRecordPlugin("kd",kd);
+		kdArp.setDialect(new SqlServerDialect());
+		me.add(kdArp);
 
-
+       //配置定时器
+        QuartzPlugin quartzPlugin = new QuartzPlugin();
+        quartzPlugin.setJobs("system-quartz.properties");
+        me.add(quartzPlugin);
 
 
 	}
