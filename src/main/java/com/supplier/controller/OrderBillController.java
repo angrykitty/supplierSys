@@ -28,7 +28,10 @@ public class OrderBillController extends Controller{
             Integer pageSize = getParaToInt("pageSize");
             Page<OrderBill> page = obService.queryOrderBillsByStatus(user.getSupplierId(),pageNum,pageSize,billStatus);
             page = page==null?new Page<OrderBill>():page;
-            renderJson(callback+"("+ Msg.SUCCESS_OBJ(page)+")");
+            setAttr("msg",page);
+            setAttr("code",200);
+            renderJson();
+         //   renderJson(callback+"("+ Msg.SUCCESS_OBJ(page)+")");
         }catch (Exception e) {
             renderJson(callback + "(" + Msg.ERROR_300("参数错误") + ")");
         }
@@ -46,7 +49,10 @@ public class OrderBillController extends Controller{
                 return;
             }
             List<OrderBillProcedures> list = obpService.findByFid(billId);
-            renderJson(callback+"("+ Msg.SUCCESS_OBJ(list)+")");
+            setAttr("msg",list);
+            setAttr("code",200);
+            renderJson();
+         //   renderJson(callback+"("+ Msg.SUCCESS_OBJ(list)+")");
         }catch (Exception e) {
             renderJson(callback + "(" + Msg.ERROR_300("参数错误") + ")");
         }
@@ -57,7 +63,10 @@ public class OrderBillController extends Controller{
         String callback=getRequest().getParameter("callback");
         Integer billId = getParaToInt("billId");
         OrderBill ob = obService.getById(billId);
-        renderJson(callback+"("+ Msg.SUCCESS_OBJ(ob)+")");
+        setAttr("msg",ob);
+        setAttr("code",200);
+        renderJson();
+        //  renderJson(callback+"("+ Msg.SUCCESS_OBJ(ob)+")");
     }
 
 

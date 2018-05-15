@@ -125,6 +125,12 @@ public class FileUploadController extends Controller {
     }
 
     public void uploadImgForOrderProcedure(){
+        /*getResponse().addHeader("Access-Control-Allow-Origin", "*");
+        getResponse().addHeader("Access-Control-Allow-Methods", "POST,GET");
+        getResponse().addHeader("Access-Control-Allow-Credentials", "true");*/
+
+
+
         String sid = getSession().getId();
         User user = CacheTools.getLoginUser(sid);
         String callback=getRequest().getParameter("callback");
@@ -163,7 +169,10 @@ public class FileUploadController extends Controller {
         ob.setStatus(status);
         ob.update();
        // setAttr("path",newName);
-        renderJson(callback+"("+ Msg.SUCCESS_TXT(fileName)+")");
+        setAttr("code",200);
+        setAttr("msg",fileName+type);
+        renderJson();
+      //  renderJson(callback+"("+ Msg.SUCCESS_TXT(fileName+type)+")");
        // redirect(PropKit.get("webUrl")+"/zzpage.html?orderid="+billId+"&billno="+ob.getBillNo());
         return;
     }

@@ -18,8 +18,11 @@ public class LoginController extends Controller {
             String pwd = getPara("pwd");
             User user = userService.getByUserNameAndPwd(userName, pwd);
             if (user != null) {
-                renderJson(user);
-                renderJson(callback+"("+Msg.SUCCESS_TXT("登陆成功")+")");
+               setAttr("code",200);
+               setAttr("msg","登陆成功");
+               renderJson();
+                // renderJson(user);
+               // renderJson(callback+"("+Msg.SUCCESS_TXT("登陆成功")+")");
                 String sid = getSession().getId();
                 CacheKit.put(CacheTools.LOGIN_USER, sid, user); // 将用户信息保存到缓存，用作超时判断
             } else {
