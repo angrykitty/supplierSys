@@ -20,9 +20,12 @@ public class LoginInterceptor implements Interceptor {
             invocation.invoke();
         }else{
 
-            String callback =ctl.getRequest().getParameter("callback");
+            //String callback =ctl.getRequest().getParameter("callback");
 
-            ctl.renderJson(callback+"("+Msg.ERROR_300("用户身份验证失败")+")");
+            //ctl.renderJson(callback+"("+Msg.ERROR_300("用户身份验证失败")+")");
+            ctl.setAttr("code",303);
+            ctl.setAttr("msg","身份验证失败");
+            ctl.renderJson();
         }
     }
 

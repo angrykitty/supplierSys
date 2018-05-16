@@ -26,7 +26,7 @@ public class OrderBillService {
 
     public Page<OrderBill> queryOrderBills(String supplierId,int pageNum, int pageSize){
         String totalRowSql = "select count(*) from orderBill where supplierId=?";
-        String findSql = "select * from orderBill where supplierId = ? order by orderDate";
+        String findSql = "select * from orderBill where supplierId = ? order by lastModified desc,orderDate desc";
         return orderBillDao.paginateByFullSql(pageNum,pageSize,totalRowSql,findSql,supplierId);
     }
 
