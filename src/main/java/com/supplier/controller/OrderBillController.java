@@ -33,7 +33,10 @@ public class OrderBillController extends Controller{
             renderJson();
          //   renderJson(callback+"("+ Msg.SUCCESS_OBJ(page)+")");
         }catch (Exception e) {
-            renderJson(callback + "(" + Msg.ERROR_300("参数错误") + ")");
+            setAttr("msg","参数错误");
+            setAttr("code",300);
+            renderJson();
+            //renderJson(callback + "(" + Msg.ERROR_300("参数错误") + ")");
         }
     }
 
@@ -54,7 +57,10 @@ public class OrderBillController extends Controller{
             renderJson();
          //   renderJson(callback+"("+ Msg.SUCCESS_OBJ(list)+")");
         }catch (Exception e) {
-            renderJson(callback + "(" + Msg.ERROR_300("参数错误") + ")");
+            setAttr("msg","参数错误");
+            setAttr("code",300);
+            renderJson();
+            //renderJson(callback + "(" + Msg.ERROR_300("参数错误") + ")");
         }
 
     }

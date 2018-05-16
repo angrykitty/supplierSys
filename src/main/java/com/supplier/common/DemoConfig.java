@@ -42,12 +42,12 @@ public class DemoConfig extends JFinalConfig {
 		/**
 		 * 特别注意：Eclipse 之下建议的启动方式
 		 */
-		//JFinal.start("src/main/webapp", 80, "/", 5);
+		 JFinal.start("src/main/webapp", 8080, "/", 5);
 		
 		/**
 		 * 特别注意：IDEA 之下建议的启动方式，仅比 eclipse 之下少了最后一个参数
 		 */
-		 JFinal.start("src/main/webapp", 8080, "/");
+		 //JFinal.start("src/main/webapp", 8080, "/");
 	}
 	
 	/**
@@ -89,12 +89,12 @@ public class DemoConfig extends JFinalConfig {
 		me.add(arp);
 		me.add(new EhCachePlugin());
 
-		DruidPlugin kd = new DruidPlugin(PropKit.get("kdUrl").trim(),PropKit.get("kdUser").trim(),PropKit.get("kdPwd").trim(),PropKit.get("kdDriver").trim());
+		/*DruidPlugin kd = new DruidPlugin(PropKit.get("kdUrl").trim(),PropKit.get("kdUser").trim(),PropKit.get("kdPwd").trim(),PropKit.get("kdDriver").trim());
 		me.add(kd);
 		// 配置ActiveRecord插件
 		ActiveRecordPlugin kdArp = new ActiveRecordPlugin("kd",kd);
 		kdArp.setDialect(new SqlServerDialect());
-		me.add(kdArp);
+		me.add(kdArp);*/
 
        //配置定时器
         QuartzPlugin quartzPlugin = new QuartzPlugin();

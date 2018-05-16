@@ -1,27 +1,19 @@
 package com.supplier.controller;
 
 import com.jfinal.core.Controller;
-import com.jfinal.kit.HttpKit;
 import com.jfinal.kit.PropKit;
 import com.jfinal.upload.UploadFile;
-import com.supplier.Msg;
 import com.supplier.common.model.OrderBill;
 import com.supplier.common.model.OrderBillProcedures;
-import com.supplier.common.model.User;
 import com.supplier.service.OrderBillProceduresService;
 import com.supplier.service.OrderBillService;
-import com.supplier.tools.CacheTools;
 import com.supplier.tools.FileTools;
 import com.supplier.tools.OrderProcedureEnum;
 import org.apache.commons.lang3.EnumUtils;
-import sun.misc.BASE64Decoder;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Date;
-import java.util.Map;
 import java.util.UUID;
 
 
@@ -60,7 +52,7 @@ public class FileUploadController extends Controller {
     }
 
 
-    public void uploadImgForOrderProcedure1(){
+    public void uploadImgForOrderProcedure(){
         UploadFile picFile=getFile("procedureImg");//得到 文件对象
         String fileName=picFile.getFileName();
         String mimeType=picFile.getContentType();//得到 上传文件的MIME类型:audio/mpeg
@@ -72,8 +64,6 @@ public class FileUploadController extends Controller {
             return ;
         }
         String sid = getSession().getId();
-        User user = CacheTools.getLoginUser(sid);
-       // Map<String,String[]> map = getParaMap();
         Integer billId = getParaToInt("billId");
         String status = getPara("status");
         OrderBill ob = obService.getById(billId);
@@ -97,18 +87,15 @@ public class FileUploadController extends Controller {
             renderJson();
             return;
         }
-        String base=this.getRequest().getContextPath().trim();//应用路径
-
         String realpath = getSession().getServletContext().getRealPath(path);
         String lastName = fileName.substring(fileName.lastIndexOf(".")); // 获取文件的后缀
         String newName= ob.getBillNo()+status+lastName;
-        //String filepath=base+"/"+path+"/"+newName.trim();
-        File file = new File(realpath+"/"+newName);
-        try {
+        File file = new File(realpath+"\\"+newName);
+       /* try {
             file.createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
         picFile.getFile().renameTo(file);
         obp.setUploadTime(new Date());
         obp.setImgPath(newName);
@@ -116,52 +103,52 @@ public class FileUploadController extends Controller {
         ob.setLastModified(new Date());
         ob.setStatus(status);
         ob.update();
-       /* setAttr("path",newName);
-        setAttr("message","上传成功！");
-        setAttr("code","200");
-        renderJson();*/
         redirect(PropKit.get("webUrl")+"/zzpage.html?orderid="+billId+"&billno="+ob.getBillNo());
         return;
     }
 
-    public void uploadImgForOrderProcedure(){
+    public void uploadImgForOrderProcedure1(){
         /*getResponse().addHeader("Access-Control-Allow-Origin", "*");
         getResponse().addHeader("Access-Control-Allow-Methods", "POST,GET");
         getResponse().addHeader("Access-Control-Allow-Credentials", "true");*/
-
-
-
-        String sid = getSession().getId();
-        User user = CacheTools.getLoginUser(sid);
-        String callback=getRequest().getParameter("callback");
+        //String sid = getSession().getId();
+        //User user = CacheTools.getLoginUser(sid);
+        //String callback=getRequest().getParameter("callback");
         Integer billId = getParaToInt("billId");
         String status = getPara("status");
         String img = getPara("procedureImg");
         OrderBill ob = obService.getById(billId);
         if(ob==null){
-            renderJson(callback+"("+ Msg.ERROR_300("订单不存在")+")");
+            setAttr("code",300);
+            setAttr("msg","订单不存在");
+         //   renderJson(callback+"("+ Msg.ERROR_300("订单不存在")+")");
             return;
         }
-        String path=("upload/").trim();
+        String path=("upload\\").trim();
         if(! EnumUtils.isValidEnum(OrderProcedureEnum.class,status)){
-            renderJson(callback+"("+ Msg.ERROR_300("参数错误")+")");
+            setAttr("code",300);
+            setAttr("msg","参数错误");
+           // renderJson(callback+"("+ Msg.ERROR_300("参数错误")+")");
             return;
         }
         OrderBillProcedures obp = obpService.getByFidAndStatus(billId,status);
         if(obp==null){
-            renderJson(callback+"("+ Msg.ERROR_300("参数错误")+")");
+            setAttr("code",300);
+            setAttr("msg","参数错误");
+            //renderJson(callback+"("+ Msg.ERROR_300("参数错误")+")");
             return;
         }
         String realpath = getSession().getServletContext().getRealPath(path);
         String fileName = ob.getBillNo()+status;
         String type = "";
         try {
-            type=FileTools.base64ToImg(img,realpath+"/"+fileName);
+            type=FileTools.base64ToImg(img,realpath+"\\"+fileName);
         } catch (Exception e) {
-            renderJson(callback+"("+ Msg.ERROR_300(e.getMessage())+")");
+            setAttr("code",300);
+            setAttr("msg",e.getMessage());
+           // renderJson(callback+"("+ Msg.ERROR_300(e.getMessage())+")");
             return;
         }
-
         obp.setUploadTime(new Date());
         obp.setImgPath(fileName+type);
         obp.update();

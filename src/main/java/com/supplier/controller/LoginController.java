@@ -26,10 +26,16 @@ public class LoginController extends Controller {
                 String sid = getSession().getId();
                 CacheKit.put(CacheTools.LOGIN_USER, sid, user); // 将用户信息保存到缓存，用作超时判断
             } else {
-                renderJson(callback+"("+Msg.ERROR_300("用户名密码错误")+")");
+                setAttr("code",300);
+                setAttr("msg","用户名密码错误");
+                renderJson();
+                //renderJson(callback+"("+Msg.ERROR_300("用户名密码错误")+")");
             }
         } catch (Exception e) {
-            renderJson(callback+"("+Msg.ERROR_300(e.getMessage())+")");
+            setAttr("code",300);
+            setAttr("msg",e.getMessage());
+            renderJson();
+            //renderJson(callback+"("+Msg.ERROR_300(e.getMessage())+")");
         }
     }
 
