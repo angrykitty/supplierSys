@@ -12,7 +12,6 @@ public class LoginController extends Controller {
     private UserService userService = UserService.me;
 
     public void login() {
-        String callback=getRequest().getParameter("callback");
         try {
             String userName = getPara("userName");
             String pwd = getPara("pwd");
