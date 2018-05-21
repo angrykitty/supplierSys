@@ -19,7 +19,7 @@ public class LoginController extends Controller {
             User user = userService.getByUserNameAndPwd(userName, pwd);
             if (user != null) {
                setAttr("code",200);
-               setAttr("msg","登陆成功");
+               setAttr("msg",user.setPwd(""));
                renderJson();
                 // renderJson(user);
                // renderJson(callback+"("+Msg.SUCCESS_TXT("登陆成功")+")");

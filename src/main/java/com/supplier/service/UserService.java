@@ -15,7 +15,7 @@ public class UserService {
 
         return user;
     }
-    public User createSupplier(User user)throws Exception{
+    public User createUser(User user)throws Exception{
         if (user ==null){
             throw new Exception("user is required");
         }
@@ -37,11 +37,6 @@ public class UserService {
         if(StringUtils.isEmpty(user.getName())){
             throw new Exception("user is required");
         }
-
-
-
-
-
         return null;
     }
 
