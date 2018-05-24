@@ -2,7 +2,6 @@ package com.supplier.controller;
 
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.ehcache.CacheKit;
-import com.supplier.Msg;
 import com.supplier.common.model.User;
 import com.supplier.service.UserService;
 import com.supplier.tools.CacheTools;

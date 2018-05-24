@@ -3,7 +3,6 @@ package com.supplier.interceptor;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
-import com.supplier.Msg;
 import com.supplier.common.model.User;
 import com.supplier.tools.CacheTools;
 
