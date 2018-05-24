@@ -2,7 +2,6 @@ package com.supplier.controller;
 
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
-import com.supplier.Msg;
 import com.supplier.common.model.OrderBill;
 import com.supplier.common.model.OrderBillProcedures;
 import com.supplier.common.model.User;
@@ -33,7 +32,7 @@ public class OrderBillController extends Controller{
             setAttr("msg",page);
             setAttr("code",200);
             renderJson();
-         //   renderJson(callback+"("+ Msg.SUCCESS_OBJ(page)+")");
+           //renderJson(callback+"("+ Msg.SUCCESS_OBJ(page)+")");
         }catch (Exception e) {
             setAttr("msg","参数错误");
             setAttr("code",300);
@@ -75,14 +74,16 @@ public class OrderBillController extends Controller{
 
 
     public void findProcedures(){
-        String callback=getRequest().getParameter("callback");
+       // String callback=getRequest().getParameter("callback");
         try {
             User user = CacheTools.getLoginUser(getSession().getId());
             Integer billId = getParaToInt("billId");
 
             OrderBill ob = obService.getById(billId);
             if(!ob.getSupplierId().trim().equals(user.getSupplierId().trim())){
-                renderJson(callback + "(" + Msg.ERROR_300("无权访问该数据") + ")");
+                setAttr("code",300);
+                setAttr("msg","无权访问该数据");
+                renderJson();
                 return;
             }
             List<OrderBillProcedures> list = obpService.findByFid(billId);
@@ -100,7 +101,7 @@ public class OrderBillController extends Controller{
     }
 
     public void getOrderBillById(){
-        String callback=getRequest().getParameter("callback");
+        //String callback=getRequest().getParameter("callback");
         Integer billId = getParaToInt("billId");
         OrderBill ob = obService.getById(billId);
         setAttr("msg",ob);
