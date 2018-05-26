@@ -102,9 +102,66 @@ public class FileUploadController extends Controller {
         ob.setLastModified(new Date());
         ob.setStatus(status);
         ob.update();
-        redirect(PropKit.get("webUrl")+"/zzpage.html?orderid="+billId+"&billno="+ob.getBillNo());
+        redirect(PropKit.get("mobileUrl")+"/zzpage.html?orderid="+billId+"&billno="+ob.getBillNo());
         return;
     }
+
+
+    public void uploadImgForOrderProcedureForWeb(){
+        UploadFile picFile=getFile("procedureImg");//得到 文件对象
+        String fileName=picFile.getFileName();
+        String mimeType=picFile.getContentType();//得到 上传文件的MIME类型:audio/mpeg
+        if(!"image/gif".equals(mimeType) && !"image/jpeg".equals(mimeType)
+                &&!"image/x-png".equals(mimeType) &&!"image/png".equals(mimeType)){
+            setAttr("message","上传文件类型错误！！！");
+            setAttr("code","300");
+            renderJson();
+            return ;
+        }
+        String sid = getSession().getId();
+        Integer billId = getParaToInt("billId");
+        String status = getPara("status");
+        OrderBill ob = obService.getById(billId);
+        if(ob==null){
+            setAttr("msg","订单不存在");
+            setAttr("code","300");
+            renderJson();
+            return;
+        }
+        String path=("upload/").trim();
+        if(! EnumUtils.isValidEnum(OrderProcedureEnum.class,status)){
+            setAttr("msg","状态不存在");
+            setAttr("code","300");
+            renderJson();
+            return;
+        }
+        OrderBillProcedures obp = obpService.getByFidAndStatus(billId,status);
+        if(obp==null){
+            setAttr("msg","数据异常");
+            setAttr("code","300");
+            renderJson();
+            return;
+        }
+        String realpath = getSession().getServletContext().getRealPath(path);
+        String lastName = fileName.substring(fileName.lastIndexOf(".")); // 获取文件的后缀
+        String newName= ob.getBillNo()+status+lastName;
+        File file = new File(realpath+"\\"+newName);
+       /* try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+        picFile.getFile().renameTo(file);
+        obp.setUploadTime(new Date());
+        obp.setImgPath(newName);
+        obp.update();
+        ob.setLastModified(new Date());
+        ob.setStatus(status);
+        ob.update();
+        redirect(PropKit.get("webUrl")+"/#/Zzpage?orderid="+billId+"&billno="+ob.getBillNo());
+        return;
+    }
+
 
     public void uploadImgForOrderProcedure1(){
         /*getResponse().addHeader("Access-Control-Allow-Origin", "*");
