@@ -89,7 +89,7 @@ public class FileUploadController extends Controller {
         String realpath = getSession().getServletContext().getRealPath(path);
         String lastName = fileName.substring(fileName.lastIndexOf(".")); // 获取文件的后缀
         String newName= ob.getBillNo()+status+lastName;
-        File file = new File(realpath+"\\"+newName);
+        File file = new File(realpath+"/"+newName);
        /* try {
             file.createNewFile();
         } catch (IOException e) {
@@ -145,7 +145,7 @@ public class FileUploadController extends Controller {
         String realpath = getSession().getServletContext().getRealPath(path);
         String lastName = fileName.substring(fileName.lastIndexOf(".")); // 获取文件的后缀
         String newName= ob.getBillNo()+status+lastName;
-        File file = new File(realpath+"\\"+newName);
+        File file = new File(realpath+"/"+newName);
        /* try {
             file.createNewFile();
         } catch (IOException e) {
