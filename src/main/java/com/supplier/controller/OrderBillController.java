@@ -51,7 +51,12 @@ public class OrderBillController extends Controller{
             Integer billStatus = getParaToInt("billStatus");
             Integer pageNum = getParaToInt("pageNum");
             Integer pageSize = getParaToInt("pageSize");
-            Page<OrderBill> page = obService.queryOrderBillsByStatus(user.getSupplierId(),pageNum,pageSize,billStatus);
+            Page<OrderBill> page = null;
+            if(user.getRole().intValue()==1) {
+                page  = obService.queryOrderBillsByStatus(user.getSupplierId(), pageNum, pageSize, billStatus);
+            }else {
+                page = obService.queryOrderBillsByStatusForBuyer(user.getSupplierId(),pageNum,pageSize,billStatus);
+            }
             page = page==null?new Page<OrderBill>():page;
             List<OrderBill> obs = page.getList();
             List<Map<String,Object>> maps = new ArrayList<Map<String, Object>>();
