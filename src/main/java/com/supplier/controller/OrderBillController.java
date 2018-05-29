@@ -9,10 +9,7 @@ import com.supplier.service.OrderBillProceduresService;
 import com.supplier.service.OrderBillService;
 import com.supplier.tools.CacheTools;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class OrderBillController extends Controller{
 
@@ -27,7 +24,13 @@ public class OrderBillController extends Controller{
             Integer billStatus = getParaToInt("billStatus");
             Integer pageNum = getParaToInt("pageNum");
             Integer pageSize = getParaToInt("pageSize");
-            Page<OrderBill> page = obService.queryOrderBillsByStatus(user.getSupplierId(),pageNum,pageSize,billStatus);
+            Page<OrderBill> page = null;
+            if(user.getRole().intValue()==1) {
+               page  = obService.queryOrderBillsByStatus(user.getSupplierId(), pageNum, pageSize, billStatus);
+            }else {
+                page = obService.queryOrderBillsByStatusForBuyer(user.getSupplierId(),pageNum,pageSize,billStatus);
+            }
+
             page = page==null?new Page<OrderBill>():page;
             setAttr("msg",page);
             setAttr("code",200);
@@ -108,6 +111,50 @@ public class OrderBillController extends Controller{
         setAttr("code",200);
         renderJson();
         //  renderJson(callback+"("+ Msg.SUCCESS_OBJ(ob)+")");
+    }
+
+    /*public void queryOrderBillsByStatusForBuyer(){
+        try {
+            User user = CacheTools.getLoginUser(getSession().getId());
+            Integer billStatus = getParaToInt("billStatus");
+            Integer pageNum = getParaToInt("pageNum");
+            Integer pageSize = getParaToInt("pageSize");
+            Page<OrderBill> page = obService.queryOrderBillsByStatusForBuyer(user.getSupplierId(),pageNum,pageSize,billStatus);
+            page = page==null?new Page<OrderBill>():page;
+            setAttr("msg",page);
+            setAttr("code",200);
+            renderJson();
+            //renderJson(callback+"("+ Msg.SUCCESS_OBJ(page)+")");
+        }catch (Exception e) {
+            setAttr("msg","参数错误");
+            setAttr("code",300);
+            renderJson();
+            //renderJson(callback + "(" + Msg.ERROR_300("参数错误") + ")");
+        }
+    }*/
+
+    public void updateDateForProcedures(){
+       // User user = CacheTools.getLoginUser(getSession().getId());
+        Integer pId = getParaToInt("pId");
+        Date date = getParaToDate("dt");
+        if(pId==null){
+            setAttr("msg","参数错误");
+            setAttr("code",300);
+            renderJson();
+            return;
+        }
+        OrderBillProcedures obp =  obpService.getById(pId);
+        if(obp==null){
+            setAttr("msg","ID不存在");
+            setAttr("code",300);
+            renderJson();
+            return;
+        }
+        obp.setDeadline(date);
+        obp.update();
+        setAttr("msg","更新成功");
+        setAttr("code",200);
+        renderJson();
     }
 
 

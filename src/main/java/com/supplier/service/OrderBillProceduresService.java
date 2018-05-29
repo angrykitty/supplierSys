@@ -33,4 +33,8 @@ public class OrderBillProceduresService {
 
         return obpDao.findFirst("select * from orderBillProcedures where fId=? AND status=?",fId,status);
     }
+
+    public OrderBillProcedures getById(Integer id){
+        return obpDao.findById(id);
+    }
 }

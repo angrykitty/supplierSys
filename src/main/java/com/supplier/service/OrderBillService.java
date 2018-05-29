@@ -44,8 +44,26 @@ public class OrderBillService {
                   break;
         }
         String totalRowSql = "select count(*) from orderBill where supplierId=?"+strStatus;
-        String findSql = "select * from orderBill where supplierId = ? "+strStatus+" order by orderDate";
+        String findSql = "select * from orderBill where supplierId = ? "+strStatus+" order by lastModified desc,orderDate";
         return orderBillDao.paginateByFullSql(pageNum,pageSize,totalRowSql,findSql,supplierId);
+    }
+
+    public Page<OrderBill> queryOrderBillsByStatusForBuyer(String buyerId,int pageNum, int pageSize,int status){
+        String strStatus ="";
+        switch (status){
+            case 0://未执行
+                strStatus = " AND status ='WZX'";
+                break;
+            case 1://执行中
+                strStatus = " AND status !='WZX' AND status !='CH'";
+                break;
+            default://执行完成
+                strStatus = " AND status ='CH'";
+                break;
+        }
+        String totalRowSql = "select count(*) from orderBill where buyerId=?"+strStatus;
+        String findSql = "select * from orderBill where buyerId = ? "+strStatus+" order by lastModified desc,orderDate";
+        return orderBillDao.paginateByFullSql(pageNum,pageSize,totalRowSql,findSql,buyerId);
     }
 
     public OrderBill getById(Integer id){

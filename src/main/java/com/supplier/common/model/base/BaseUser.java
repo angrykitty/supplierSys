@@ -58,7 +58,11 @@ public abstract class BaseUser<M extends BaseUser<M>> extends Model<M> implement
 		set("role", role);
 		return (M)this;
 	}
-	
+
+	/**
+	 * 0：管理员，1:供应商，2：采购员
+	 * @return
+	 */
 	public java.lang.Integer getRole() {
 		return getInt("role");
 	}
@@ -71,6 +75,12 @@ public abstract class BaseUser<M extends BaseUser<M>> extends Model<M> implement
 	public java.lang.String getTel() {
 		return getStr("tel");
 	}
+
+	/**
+	 * role为1时候supplierId为供应商编码（金蝶），role为0，1时候，supplierId为金蝶中的员工编号
+	 * @param supplierId
+	 * @return
+	 */
 
 	public M setSupplierId(java.lang.String supplierId) {
 		set("supplierId", supplierId);

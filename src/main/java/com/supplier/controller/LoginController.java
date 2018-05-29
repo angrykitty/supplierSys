@@ -50,6 +50,19 @@ public class LoginController extends Controller {
 
     }
 
+    public void getLoginUser(){
+        String sid = getSession().getId();
+        User user= CacheTools.getLoginUser(sid);
 
+        if(user==null){
+            setAttr("code", 303);
+            setAttr("msg", "未登陆");
+            renderJson();
+        }else {
+            setAttr("code", 200);
+            setAttr("msg", user);
+            renderJson();
+        }
+    }
 
 }
