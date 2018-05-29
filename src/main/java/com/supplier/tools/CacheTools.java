@@ -9,4 +9,8 @@ public class CacheTools {
     public static User getLoginUser(String sid){
         return CacheKit.get(LOGIN_USER,sid);
     }
+
+    public static void removeLoginUser(String sid){
+        CacheKit.remove(LOGIN_USER,sid);
+    }
 }

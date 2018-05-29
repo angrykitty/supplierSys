@@ -37,6 +37,18 @@ public class LoginController extends Controller {
         }
     }
 
+    public void logout(){
+       String sid = getSession().getId();
+       User user= CacheTools.getLoginUser(sid);
+
+       if(user!=null){
+           CacheTools.removeLoginUser(sid);
+       }
+       setAttr("code",200);
+       setAttr("msg","登出成功");
+       renderJson();
+
+    }
 
 
 
