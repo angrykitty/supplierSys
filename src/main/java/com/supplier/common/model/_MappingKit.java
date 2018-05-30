@@ -20,6 +20,8 @@ public class _MappingKit {
 		arp.addMapping("orderBill", "id", OrderBill.class);
 		arp.addMapping("orderBillProcedures", "id", OrderBillProcedures.class);
 		arp.addMapping("user", "id", User.class);
+		arp.addMapping("yph_goods", "id", YphGoods.class);
+		arp.addMapping("yph_goods_img", "id", YphGoodsImg.class);
 	}
 }
 
