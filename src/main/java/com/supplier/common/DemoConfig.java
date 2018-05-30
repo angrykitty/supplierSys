@@ -11,6 +11,7 @@ import com.supplier.common.model._MappingKit;
 import com.supplier.controller.FileUploadController;
 import com.supplier.controller.LoginController;
 import com.supplier.controller.OrderBillController;
+import com.supplier.controller.YphGoodsController;
 import com.supplier.index.IndexController;
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
@@ -42,12 +43,12 @@ public class DemoConfig extends JFinalConfig {
 		/**
 		 * 特别注意：Eclipse 之下建议的启动方式
 		 */
-		 JFinal.start("src/main/webapp", 8080, "/", 5);
+		 /*JFinal.start("src/main/webapp", 8080, "/", 5);*/
 		
 		/**
 		 * 特别注意：IDEA 之下建议的启动方式，仅比 eclipse 之下少了最后一个参数
 		 */
-		 //JFinal.start("src/main/webapp", 8080, "/");
+		 JFinal.start("src/main/webapp", 8080, "/");
 	}
 	
 	/**
@@ -68,6 +69,7 @@ public class DemoConfig extends JFinalConfig {
 		me.add("/login", LoginController.class);
 		me.add("/upload", FileUploadController.class);
 		me.add("/orderBill", OrderBillController.class);
+		me.add("/yphGoods", YphGoodsController.class);
 	}
 	
 	public void configEngine(Engine me) {
