@@ -2,7 +2,6 @@ package com.supplier.common.model;
 
 import com.supplier.common.model.base.BaseYphGoods;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,13 +10,7 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class YphGoods extends BaseYphGoods<YphGoods> {
 
-    public List<YphGoodsImg> goodsImgLis = new ArrayList<YphGoodsImg>();
-
-    public List<YphGoodsImg> getGoodsImgLis() {
-        return goodsImgLis;
-    }
-
     public void setGoodsImgLis(List<YphGoodsImg> goodsImgLis) {
-        this.goodsImgLis = goodsImgLis;
+        put("goodsImgLis",goodsImgLis);
     }
 }

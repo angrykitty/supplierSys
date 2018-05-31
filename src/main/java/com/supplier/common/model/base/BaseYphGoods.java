@@ -36,6 +36,15 @@ public abstract class BaseYphGoods<M extends BaseYphGoods<M>> extends Model<M> i
 		return getStr("des");
 	}
 
+	public M setRemark(java.lang.String remark) {
+		set("remark", remark);
+		return (M)this;
+	}
+	
+	public java.lang.String getRemark() {
+		return getStr("remark");
+	}
+
 	public M setVerifyBy(java.lang.Integer verifyBy) {
 		set("verifyBy", verifyBy);
 		return (M)this;
@@ -45,13 +54,13 @@ public abstract class BaseYphGoods<M extends BaseYphGoods<M>> extends Model<M> i
 		return getInt("verifyBy");
 	}
 
-	public M setReplyMsg(java.lang.Integer replyMsg) {
+	public M setReplyMsg(java.lang.String replyMsg) {
 		set("replyMsg", replyMsg);
 		return (M)this;
 	}
 	
-	public java.lang.Integer getReplyMsg() {
-		return getInt("replyMsg");
+	public java.lang.String getReplyMsg() {
+		return getStr("replyMsg");
 	}
 
 	public M setVerifyTime(java.util.Date verifyTime) {

@@ -32,7 +32,6 @@ public class YphGoodsService {
         String totalRowSql = "select count(*) from yph_goods";
         String findSql = "select id,title,createTime from yph_goods ORDER BY createTime DESC";
         return yphGoods.paginateByFullSql(pageNum, pageSize, totalRowSql, findSql);
-
     }
 
     /**
@@ -57,6 +56,7 @@ public class YphGoodsService {
 
     /**
      * 获取商品列表
+     *
      * @param title
      * @param verifyState
      * @param startTime
@@ -65,25 +65,25 @@ public class YphGoodsService {
      * @param pageSize
      * @return
      */
-    public Page<YphGoods> queryPageGoods(String title, Integer verifyState,
-                                         String startTime, String endTime, int pageNum, int pageSize) {
+    public Page<YphGoods> queryPageGoods(int pageNum, int pageSize, String title, Integer verifyState,
+                                         String startTime, String endTime) {
         String totalRowSql = "select count(*) from yph_goods where 1=1";
-        String findSql = "select id,title,createTime from yph_goods where 1=1";
-        if (StringUtils.isEmpty(title)) {
-            totalRowSql += " and title  '%'" + title + "'%'";
-            findSql += " and title  '%'" + title + "'%'";
+        String findSql = "select id,title,des,createTime,verifyState,replyMsg,remark from yph_goods where 1=1";
+        if (!StringUtils.isEmpty(title)) {
+            totalRowSql += " and  title like  '%" + title + "%'";
+            findSql += " and  title like  '%" + title + "%'";
         }
         if (verifyState != null) {
             totalRowSql += " and verifyState =" + verifyState;
             findSql += " and verifyState =" + verifyState;
         }
-        if (StringUtils.isEmpty(startTime)) {
-            totalRowSql += " and createTime >" + startTime;
-            findSql += " and createTime >" + startTime;
+        if (!StringUtils.isEmpty(startTime)) {
+            totalRowSql += " and createTime >" + "str_to_date('" + startTime + "', '%Y-%m-%d')";
+            findSql += " and createTime >" + "str_to_date('" + startTime + "', '%Y-%m-%d')";
         }
-        if (StringUtils.isEmpty(endTime)) {
-            totalRowSql += " and createTime <=" + endTime;
-            findSql += " and createTime <=" + endTime;
+        if (!StringUtils.isEmpty(endTime)) {
+            totalRowSql += " and createTime <=" + "date_sub(str_to_date('" + endTime + "', '%Y-%m-%d'),interval -1 day)";
+            findSql += " and createTime <=" + "date_sub(str_to_date('" + endTime + "', '%Y-%m-%d'),interval -1 day)";
         }
         findSql += " ORDER BY createTime DESC";
         return yphGoods.paginateByFullSql(pageNum, pageSize, totalRowSql, findSql);
