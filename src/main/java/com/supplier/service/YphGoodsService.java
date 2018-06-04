@@ -57,10 +57,10 @@ public class YphGoodsService {
     /**
      * 获取商品列表
      *
-     * @param title
-     * @param verifyState
-     * @param startTime
-     * @param endTime
+     * @param title 标题
+     * @param verifyState 审批状态
+     * @param startTime  创建开始时间
+     * @param endTime  创建开始时间
      * @param pageNum
      * @param pageSize
      * @return
