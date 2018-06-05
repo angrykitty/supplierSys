@@ -8,10 +8,7 @@ import com.jfinal.plugin.c3p0.C3p0Plugin;
 import com.sun.org.apache.bcel.internal.generic.NEW;
 import com.supplier.blog.BlogController;
 import com.supplier.common.model._MappingKit;
-import com.supplier.controller.FileUploadController;
-import com.supplier.controller.LoginController;
-import com.supplier.controller.OrderBillController;
-import com.supplier.controller.YphGoodsController;
+import com.supplier.controller.*;
 import com.supplier.index.IndexController;
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
@@ -70,6 +67,7 @@ public class DemoConfig extends JFinalConfig {
 		me.add("/upload", FileUploadController.class);
 		me.add("/orderBill", OrderBillController.class);
 		me.add("/yphGoods", YphGoodsController.class);
+        me.add("/user", UserController.class);
 	}
 	
 	public void configEngine(Engine me) {
