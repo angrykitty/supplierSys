@@ -118,7 +118,7 @@ public class FileUploadController extends Controller {
             renderJson();
             return ;
         }
-        String sid = getSession().getId();
+       // String sid = getSession().getId();
         Integer billId = getParaToInt("billId");
         String status = getPara("status");
         OrderBill ob = obService.getById(billId);
@@ -158,8 +158,10 @@ public class FileUploadController extends Controller {
         ob.setLastModified(new Date());
         ob.setStatus(status);
         ob.update();
-        redirect(PropKit.get("webUrl")+"/#/Zzpage?orderid="+billId+"&billno="+ob.getBillNo());
-        return;
+        setAttr("code",200);
+        setAttr("msg","上传成功");
+        renderJson();
+        //redirect(PropKit.get("webUrl")+"/#/Zzpage?orderid="+billId+"&billno="+ob.getBillNo());
     }
 
 
